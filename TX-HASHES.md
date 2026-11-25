@@ -1,0 +1,23 @@
+# Transaction Hashes — the full reactive loop
+
+One complete, verified run of the guardian loop (Base Sepolia -> Lasna -> Base Sepolia):
+
+| Step | What | Transaction |
+|---|---|---|
+| 1 | AI agent publishes signal #1 (arms guardian with dynamic stop band) | [0x9f8e11f2840ebda0969ddf0614a35fc0323405fefd2db35119ed81155d440b76](https://sepolia.basescan.org/tx/0x9f8e11f2840ebda0969ddf0614a35fc0323405fefd2db35119ed81155d440b76) |
+| 2 | Market sell (8 RISK) crashes the pair price through the AI-set stop | [0x419478b8e548d25ed0f9e7400003ce63acf867da222990a9fb8a5d25d7f86dd5](https://sepolia.basescan.org/tx/0x419478b8e548d25ed0f9e7400003ce63acf867da222990a9fb8a5d25d7f86dd5) |
+| 3 | Reactive transaction on Lasna: guardian sees the Sync, emits Triggered, requests callback | [0x0ee9526a8266a405e997b132aaa9329405d36eee784b2f6512237dfae06ac4c1](https://lasna.reactscan.net/tx/0x0ee9526a8266a405e997b132aaa9329405d36eee784b2f6512237dfae06ac4c1) |
+| 4 | Callback transaction on Base Sepolia: StopExecutor sells the protected 2 RISK into STBL | [0x880b0466176a1f9a0b322054262563dbeee34fe8297a6e44439b5c6f0105ce3e](https://sepolia.basescan.org/tx/0x880b0466176a1f9a0b322054262563dbeee34fe8297a6e44439b5c6f0105ce3e) |
+
+Supporting transactions:
+
+| What | Transaction |
+|---|---|
+| Sepolia ETH -> lREACT faucet conversion | 0xfb4769816c189a8f699f96596c729a8c65c0f7f70c01713d3bd1da8ab9ba589d |
+| Sepolia -> Base Sepolia bridge deposit | 0x79b58bfcf6516dd71e33e3fbd5293d1c53bf5f0784f27fe514f9bea7bb20b538 |
+| Pair creation | 0x5efe960d1da94c90e1f08c60004f3fe798ee6d798e8badd6de3652277730de9e |
+| Liquidity added (100 RISK / 100 STBL) | 0x2e8d290be234b465e943692b272ace0e56b1c12d73fe799b2d3e98e324f3c77b |
+| Guardian reserves (depositTo on Lasna) | 0x79e616c845e5019ec772b3251d5ba2b9f5e2ddd3727ae4b9c1a169e81cd81614 |
+| Executor reserves (depositTo via Base Sepolia proxy) | 0xddf9dffeae6af53d9cbdb4e1a7d3ec1e0b5925253a665cc1bdb682cd95837e32 |
+| Client approves StopExecutor | 0x6f4d562a56367625f7827f7ef824fee65ce712a2320ae560197c9d32fadf9603 |
+| Guardian wired to executor (setExecutor) | 0xa76c3ea19060fe34c2a682de3f5a89e0b809806aa6e55b4d72a876e263f6c1ca |
